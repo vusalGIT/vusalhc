@@ -1,0 +1,3 @@
+smbpasswd -U DOMAIN/user -r domain.local
+nxc smb 10.129.116.120 -u '' -p '' --rid-brute | grep SidTypeUser | cut -d'\' -f2 | cut -d' ' -f1 > users.txt
+ifconfig | grep -w inet | awk '{print $2}'
